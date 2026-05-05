@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terraço FC — Escola de Futebol</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --laranja: #FF6B00;
+    --laranja-claro: #FF8C33;
+    --laranja-escuro: #CC5500;
+    --preto: #0A0A0A;
+    --preto-card: #141414;
+    --preto-borda: #1E1E1E;
+    --cinza: #888;
+    --branco: #F5F5F0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--preto);
+    color: var(--branco);
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── CAMPO TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 39px,
+        rgba(255,107,0,0.03) 39px,
+        rgba(255,107,0,0.03) 40px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 39px,
+        rgba(255,107,0,0.02) 39px,
+        rgba(255,107,0,0.02) 40px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  * { position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 5%;
+    border-bottom: 1px solid var(--preto-borda);
+    background: rgba(10,10,10,0.9);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .hamburger-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 32px;
+  }
+
+  .hamburger-logo span {
+    display: block;
+    height: 5px;
+    background: var(--laranja);
+    border-radius: 2px;
+    transition: transform 0.3s;
+  }
+
+  .hamburger-logo span:nth-child(1) { width: 100%; }
+  .hamburger-logo span:nth-child(2) { width: 75%; }
+  .hamburger-logo span:nth-child(3) { width: 100%; }
+
+  .nav-nome {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    color: var(--branco);
+  }
+
+  .nav-nome span { color: var(--laranja); }
+
+  nav a.btn-nav {
+    background: var(--laranja);
+    color: var(--preto);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.6rem 1.4rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  nav a.btn-nav:hover {
+    background: var(--laranja-claro);
+    transform: translateY(-1px);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 5%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: 'FC';
+    position: absolute;
+    right: -2%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(16rem, 30vw, 28rem);
+    color: rgba(255,107,0,0.05);
+    letter-spacing: -10px;
+    pointer-events: none;
+    z-index: 0;
+    line-height: 1;
+  }
+
+  .hero-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--laranja);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 2px;
+    background: var(--laranja);
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--branco);
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--laranja);
+    display: block;
+  }
+
+  .hero p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: #aaa;
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--laranja);
+    color: var(--preto);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 1rem 2.2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+    border: 2px solid var(--laranja);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--laranja);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    color: var(--branco);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 1rem 2.2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    border: 1px solid #333;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--laranja);
+    color: var(--laranja);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--preto-borda);
+    flex-wrap: wrap;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--laranja);
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--cinza);
+    margin-top: 2px;
+  }
+
+  /* ── SEÇÃO SOBRE ── */
+  .sobre {
+    padding: 6rem 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    border-top: 1px solid var(--preto-borda);
+  }
+
+  .sobre-badge {
+    display: inline-block;
+    background: rgba(255,107,0,0.12);
+    color: var(--laranja);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 1.2rem;
+  }
+
+  .sobre h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .sobre h2 span { color: var(--laranja); }
+
+  .sobre p {
+    color: #999;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+  }
+
+  .sobre-visual {
+    background: var(--preto-card);
+    border: 1px solid var(--preto-borda);
+    border-radius: 4px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .sobre-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .sobre-icon {
+    width: 42px;
+    height: 42px;
+    background: rgba(255,107,0,0.1);
+    border: 1px solid rgba(255,107,0,0.3);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+
+  .sobre-item-titulo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--branco);
+    margin-bottom: 2px;
+  }
+
+  .sobre-item-desc {
+    font-size: 0.88rem;
+    color: #777;
+    line-height: 1.5;
+  }
+
+  /* ── MODALIDADES ── */
+  .modalidades {
+    padding: 6rem 5%;
+    border-top: 1px solid var(--preto-borda);
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .section-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+
+  .section-titulo span { color: var(--laranja); }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--preto-borda);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .card {
+    background: var(--preto-card);
+    padding: 2rem;
+    border-right: 1px solid var(--preto-borda);
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .card:last-child { border-right: none; }
+
+  .card:hover { background: #1a1a1a; }
+
+  .card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: rgba(255,107,0,0.2);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+    letter-spacing: 2px;
+  }
+
+  .card:hover .card-num { color: rgba(255,107,0,0.5); }
+
+  .card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--branco);
+    margin-bottom: 0.6rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+    color: #777;
+    line-height: 1.6;
+  }
+
+  .card-tag {
+    display: inline-block;
+    background: rgba(255,107,0,0.1);
+    color: var(--laranja);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-top: 1rem;
+  }
+
+  /* ── DIFERENCIAIS ── */
+  .diferenciais {
+    padding: 6rem 5%;
+    border-top: 1px solid var(--preto-borda);
+    text-align: center;
+  }
+
+  .diferenciais .section-titulo { margin-bottom: 0.5rem; }
+  .diferenciais .section-sub {
+    color: #666;
+    max-width: 480px;
+    margin: 0 auto 3rem;
+    font-size: 0.95rem;
+  }
+
+  .dif-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .dif-card {
+    background: var(--preto-card);
+    border: 1px solid var(--preto-borda);
+    border-radius: 4px;
+    padding: 2rem 1.5rem;
+    text-align: left;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .dif-card:hover {
+    border-color: rgba(255,107,0,0.4);
+    transform: translateY(-4px);
+  }
+
+  .dif-emoji {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .dif-titulo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--branco);
+    margin-bottom: 0.4rem;
+  }
+
+  .dif-desc {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  /* ── CTA ── */
+  .cta-banner {
+    margin: 0 5% 6rem;
+    background: var(--laranja);
+    padding: 4rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-banner::before {
+    content: '⚽';
+    position: absolute;
+    right: -2rem;
+    top: -2rem;
+    font-size: 14rem;
+    opacity: 0.06;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .cta-banner h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--preto);
+    letter-spacing: 2px;
+    line-height: 1.1;
+  }
+
+  .cta-banner p {
+    color: rgba(0,0,0,0.6);
+    font-size: 0.95rem;
+    margin-top: 0.4rem;
+    max-width: 400px;
+  }
+
+  .btn-dark {
+    background: var(--preto);
+    color: var(--branco);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 1rem 2.2rem;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .btn-dark:hover { background: #1a1a1a; transform: translateY(-2px); }
+
+  /* ── CONTATO ── */
+  .contato {
+    padding: 6rem 5%;
+    border-top: 1px solid var(--preto-borda);
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .contato-info h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .contato-info h2 span { color: var(--laranja); }
+  .contato-info p { color: #777; line-height: 1.8; margin-bottom: 2rem; }
+
+  .contato-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .contato-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--branco);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    padding: 0.8rem 1rem;
+    background: var(--preto-card);
+    border: 1px solid var(--preto-borda);
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  .contato-link:hover {
+    border-color: var(--laranja);
+    color: var(--laranja);
+    padding-left: 1.4rem;
+  }
+
+  .contato-link .icon {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+  }
+
+  .contato-form {
+    background: var(--preto-card);
+    border: 1px solid var(--preto-borda);
+    border-radius: 4px;
+    padding: 2.5rem;
+  }
+
+  .form-titulo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--laranja);
+    margin-bottom: 1.5rem;
+  }
+
+  .form-grupo {
+    margin-bottom: 1.2rem;
+  }
+
+  .form-grupo label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-grupo input,
+  .form-grupo select,
+  .form-grupo textarea {
+    width: 100%;
+    background: #0f0f0f;
+    border: 1px solid #222;
+    color: var(--branco);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  .form-grupo input:focus,
+  .form-grupo select:focus,
+  .form-grupo textarea:focus {
+    border-color: var(--laranja);
+  }
+
+  .form-grupo select option {
+    background: #0f0f0f;
+  }
+
+  .btn-enviar {
+    width: 100%;
+    background: var(--laranja);
+    color: var(--preto);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 1rem;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .btn-enviar:hover {
+    background: var(--laranja-claro);
+    transform: translateY(-1px);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--preto-borda);
+    padding: 2.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    color: var(--branco);
+  }
+
+  .footer-logo span { color: var(--laranja); }
+
+  footer p {
+    font-size: 0.8rem;
+    color: #444;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .footer-social a {
+    color: #555;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-social a:hover { color: var(--laranja); }
+
+  /* ── ANIMAÇÕES ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag, .hero h1, .hero p, .hero-ctas, .hero-stats {
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-tag { animation-delay: 0.1s; }
+  .hero h1 { animation-delay: 0.2s; }
+  .hero p { animation-delay: 0.35s; }
+  .hero-ctas { animation-delay: 0.5s; }
+  .hero-stats { animation-delay: 0.65s; }
+
+  /* ── RESPONSIVO ── */
+  @media (max-width: 768px) {
+    .sobre {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .contato {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .cta-banner {
+      padding: 2.5rem;
+      flex-direction: column;
+    }
+
+    .hero-stats {
+      gap: 1.5rem;
+    }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      border-right: none;
+      border-bottom: 1px solid var(--preto-borda);
+    }
+
+    .card:last-child { border-bottom: none; }
+
+    footer {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero { min-height: 100svh; }
+    nav a.btn-nav { display: none; }
+    .hero h1 { font-size: 3.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="hamburger-logo" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <span class="nav-nome">Terraço <span>FC</span></span>
+  </a>
+  <a href="#contato" class="btn-nav">Fale Conosco</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tag">Escola de Futebol</p>
+  <h1>Formando<br><em>campeões</em>dentro e fora do campo</h1>
+  <p>Aulas de futebol para todas as idades com metodologia séria, professores qualificados e um ambiente que inspira evolução.</p>
+  <div class="hero-ctas">
+    <a href="#contato" class="btn-primary">Matricule-se Agora</a>
+    <a href="#modalidades" class="btn-secondary">Ver Modalidades</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">+200</div>
+      <div class="stat-label">Alunos Formados</div>
+    </div>
+    <div>
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Anos de Experiência</div>
+    </div>
+    <div>
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Dedicação Total</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section class="sobre" id="sobre">
+  <div>
+    <span class="sobre-badge">Quem Somos</span>
+    <h2>Mais do que uma<br><span>escola de futebol</span></h2>
+    <p>O Terraço FC nasceu da paixão pelo esporte e pela vontade de transformar vidas através do futebol. Nossa metodologia combina técnica, disciplina e trabalho em equipe.</p>
+    <p>Acreditamos que o campo é uma extensão da vida. O que aprendemos aqui, levamos pra sempre.</p>
+  </div>
+  <div class="sobre-visual">
+    <div class="sobre-item">
+      <div class="sobre-icon">🏆</div>
+      <div>
+        <div class="sobre-item-titulo">Metodologia Profissional</div>
+        <div class="sobre-item-desc">Treinos estruturados com base em pedagogia esportiva moderna.</div>
+      </div>
+    </div>
+    <div class="sobre-item">
+      <div class="sobre-icon">👟</div>
+      <div>
+        <div class="sobre-item-titulo">Professores Certificados</div>
+        <div class="sobre-item-desc">Nossa equipe é formada em Educação Física com experiência no esporte.</div>
+      </div>
+    </div>
+    <div class="sobre-item">
+      <div class="sobre-icon">🤝</div>
+      <div>
+        <div class="sobre-item-titulo">Ambiente Acolhedor</div>
+        <div class="sobre-item-desc">Valorizamos o respeito, a amizade e o desenvolvimento humano.</div>
+      </div>
+    </div>
+    <div class="sobre-item">
+      <div class="sobre-icon">📍</div>
+      <div>
+        <div class="sobre-item-titulo">Localização Privilegiada</div>
+        <div class="sobre-item-desc">Campo bem localizado, acessível e com toda a infraestrutura necessária.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODALIDADES -->
+<section class="modalidades" id="modalidades">
+  <div class="section-header">
+    <div>
+      <h2 class="section-titulo">Nossas <span>Modalidades</span></h2>
+    </div>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-num">01</div>
+      <h3>Escolinha Infantil</h3>
+      <p>Para crianças de 5 a 12 anos. Foco em coordenação motora, criatividade e amor pelo esporte desde cedo.</p>
+      <span class="card-tag">5 a 12 anos</span>
+    </div>
+    <div class="card">
+      <div class="card-num">02</div>
+      <h3>Sub-15 & Sub-17</h3>
+      <p>Preparação técnica e tática para jovens que querem levar o futebol a sério. Treinos intensos e focados.</p>
+      <span class="card-tag">13 a 17 anos</span>
+    </div>
+    <div class="card">
+      <div class="card-num">03</div>
+      <h3>Futebol Adulto</h3>
+      <p>Para quem nunca parou de sonhar. Futebol recreativo e competitivo com qualidade e muito prazer.</p>
+      <span class="card-tag">18+ anos</span>
+    </div>
+    <div class="card">
+      <div class="card-num">04</div>
+      <h3>Treino Personalizado</h3>
+      <p>Evolução individual e acelerada. Sessões exclusivas com foco nas suas necessidades específicas.</p>
+      <span class="card-tag">Todas as idades</span>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section class="diferenciais" id="diferenciais">
+  <span class="sobre-badge">Por que o Terraço FC?</span>
+  <h2 class="section-titulo">O que nos faz <span>diferentes</span></h2>
+  <p class="section-sub">Cada detalhe foi pensado para que você ou seu filho tenha a melhor experiência possível dentro e fora do campo.</p>
+  <div class="dif-grid">
+    <div class="dif-card">
+      <span class="dif-emoji">⚽</span>
+      <div class="dif-titulo">Treinos toda semana</div>
+      <div class="dif-desc">Calendário fixo para garantir evolução contínua e consistente.</div>
+    </div>
+    <div class="dif-card">
+      <span class="dif-emoji">📋</span>
+      <div class="dif-titulo">Acompanhamento Individual</div>
+      <div class="dif-desc">Cada aluno recebe atenção personalizada para evoluir no seu ritmo.</div>
+    </div>
+    <div class="dif-card">
+      <span class="dif-emoji">👨‍👩‍👦</span>
+      <div class="dif-titulo">Família Bem-Vinda</div>
+      <div class="dif-desc">Ambiente familiar, aberto e seguro para pais acompanharem os treinos.</div>
+    </div>
+    <div class="dif-card">
+      <span class="dif-emoji">🏅</span>
+      <div class="dif-titulo">Participação em Torneios</div>
+      <div class="dif-desc">Nossos alunos competem e representam o Terraço FC com orgulho.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <div>
+    <h2>Pronto para começar<br>sua jornada?</h2>
+    <p>Vagas limitadas. Garanta sua matrícula hoje e entre para o time Terraço FC.</p>
+  </div>
+  <a href="#contato" class="btn-dark">Garantir Minha Vaga →</a>
+</div>
+
+<!-- CONTATO -->
+<section class="contato" id="contato">
+  <div class="contato-info">
+    <h2>Entre em<br><span>Contato</span></h2>
+    <p>Quer saber mais sobre as turmas, horários e valores? Fale com a gente. Atendemos pelo WhatsApp, Instagram e e-mail.</p>
+    <div class="contato-links">
+      <a href="https://wa.me/5511999999999" target="_blank" class="contato-link">
+        <span class="icon">📱</span>
+        WhatsApp: (11) 99999-9999
+      </a>
+      <a href="https://instagram.com/terracofcoficial" target="_blank" class="contato-link">
+        <span class="icon">📸</span>
+        @terracofcoficial
+      </a>
+      <a href="mailto:contato@terracafc.com.br" class="contato-link">
+        <span class="icon">✉️</span>
+        contato@terracafc.com.br
+      </a>
+      <a href="#" class="contato-link">
+        <span class="icon">📍</span>
+        Rua do Terraço, 100 — São Paulo/SP
+      </a>
+    </div>
+  </div>
+
+  <div class="contato-form">
+    <div class="form-titulo">Solicite Informações</div>
+    <div class="form-grupo">
+      <label>Nome Completo</label>
+      <input type="text" placeholder="Seu nome">
+    </div>
+    <div class="form-grupo">
+      <label>WhatsApp</label>
+      <input type="tel" placeholder="(11) 99999-9999">
+    </div>
+    <div class="form-grupo">
+      <label>Modalidade de Interesse</label>
+      <select>
+        <option value="">Selecione uma opção</option>
+        <option>Escolinha Infantil (5–12 anos)</option>
+        <option>Sub-15 & Sub-17</option>
+        <option>Futebol Adulto (18+)</option>
+        <option>Treino Personalizado</option>
+      </select>
+    </div>
+    <div class="form-grupo">
+      <label>Mensagem (opcional)</label>
+      <textarea rows="3" placeholder="Dúvidas, horários preferidos..."></textarea>
+    </div>
+    <button class="btn-enviar" onclick="handleEnvio()">Enviar Mensagem ↗</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Terraço <span>FC</span></div>
+  <p>© 2025 Terraço FC · Todos os direitos reservados</p>
+  <div class="footer-social">
+    <a href="#">Instagram</a>
+    <a href="#">TikTok</a>
+    <a href="#">WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+function handleEnvio() {
+  const nome = document.querySelector('input[type="text"]').value.trim();
+  const tel = document.querySelector('input[type="tel"]').value.trim();
+  const mod = document.querySelector('select').value;
+
+  if (!nome || !tel || !mod) {
+    alert('Por favor, preencha nome, WhatsApp e modalidade antes de enviar.');
+    return;
+  }
+
+  const texto = encodeURIComponent(
+    `Olá! Me chamo *${nome}* e tenho interesse na modalidade *${mod}*. Pode me passar mais informações? Obrigado!`
+  );
+  window.open(`https://wa.me/5511999999999?text=${texto}`, '_blank');
+}
+</script>
+
+</body>
+</html>
